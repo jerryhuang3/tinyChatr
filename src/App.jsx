@@ -8,19 +8,7 @@ class App extends Component {
     this.socket = new WebSocket('ws://0.0.0.0:3001');
     this.state = {
       currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id: 1,
-          username: 'Bob',
-          content: 'Has anyone seen my marbles?'
-        },
-        {
-          id: 2,
-          username: 'Anonymous',
-          content:
-            'No, I think you lost them. You lost your marbles Bob. You lost them for good.'
-        }
-      ]
+      messages: []
     };
     this.addMessage = this.addMessage.bind(this);
   }
@@ -30,34 +18,31 @@ class App extends Component {
     this.socket.onopen = function(event) {
       console.log('Connected to web socket.');
     };
-    setTimeout(() => {
-      console.log('Simulating incoming message');
-      //Add new message
-      const newMessage = {
-        id: 3,
-        username: 'Michelle',
-        content: 'Hello there!'
-      };
-      const messages = this.state.messages.concat(newMessage);
+    
+    this.socket.onmessage = (event) => {
+      console.log("RECEIVING FROM SERVER", JSON.parse(event.data))
+      const receivedMessage = JSON.parse(event.data);
+    
+    const oldMessages = this.state.messages;
+    const newMessages = [...oldMessages, receivedMessage ];
+    this.setState({messages:newMessages});
+    }
 
-      this.setState({ messages: messages });
-    }, 3000);
+
   }
 
   addMessage(data) {
     console.log('receiveData <App />');
-    const oldMessages = this.state.messages;
     let newData = {
-      id: this.state.messages.length + 1,
-      username: data.username,
-      content: data.message
+  
+      username: this.state.currentUser.name,
+      content: data
     };
-
-    const newMessages = [...oldMessages, newData];
 
     console.log("Sending:", JSON.stringify(newData));
     this.socket.send(JSON.stringify(newData));
 
+    
     // this.setState({ messages: newMessages });
   }
 
