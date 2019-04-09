@@ -18,43 +18,42 @@ class App extends Component {
     this.socket.onopen = function(event) {
       console.log('Connected to web socket.');
     };
-    
-    this.socket.onmessage = (event) => {
-      console.log("RECEIVING FROM SERVER", JSON.parse(event.data))
+
+    this.socket.onmessage = event => {
+      console.log('RECEIVING FROM SERVER', JSON.parse(event.data));
       const receivedMessage = JSON.parse(event.data);
-    
-    const oldMessages = this.state.messages;
-    const newMessages = [...oldMessages, receivedMessage ];
-    this.setState({messages:newMessages});
-    }
 
+      const oldMessages = this.state.messages;
+      const newMessages = [...oldMessages, receivedMessage];
 
+      if (event.data.username !== this.state.currentUser.name) {
+        const newUser = { name: receivedMessage.username };
+        this.setState({ currentUser: newUser, messages: newMessages });
+      } else {
+        this.setState({ messages: newMessages });
+      }
+    };
   }
 
-  addMessage(data) {
-    console.log('receiveData <App />');
-    let newData = {
-  
-      username: this.state.currentUser.name,
-      content: data
+  addMessage(username, content) {
+    const newData = {
+      username: username,
+      content: content
     };
 
-    console.log("Sending:", JSON.stringify(newData));
+    console.log('Sending:', JSON.stringify(newData));
     this.socket.send(JSON.stringify(newData));
-
-    
-    // this.setState({ messages: newMessages });
   }
 
   render() {
     console.log('RENDERING <App />');
-    console.log('Returning New messages', this.state.messages);
+    console.log('Returning New messages', this.state);
     return (
       <div>
         <MessageList messages={this.state.messages} />
         <ChatBar
           currentUser={this.state.currentUser.name}
-          sendData={this.addMessage}
+          chatData={this.addMessage}
         />
       </div>
     );

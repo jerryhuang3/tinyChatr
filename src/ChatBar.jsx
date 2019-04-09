@@ -7,13 +7,14 @@ class ChatBar extends Component {
     this.submitMessage = this.submitMessage.bind(this);
   }
 
-
+  handleInput(event) {}
 
   submitMessage(event) {
     if (event.keyCode === 13) {
-        console.log(event.target.value);
-      this.props.sendData(event.target.value);
-    event.target.value = '';
+      const content = event.target.value;
+      const username = this.refs.username.value;
+      this.props.chatData(username, content);
+      event.target.value = '';
     }
   }
 
@@ -23,10 +24,10 @@ class ChatBar extends Component {
       <footer className="chatbar">
         <input
           className="chatbar-username"
-          name="username"
+          ref="username"
           defaultValue={this.props.currentUser}
-          placeholder="Your Name (Optional)"
           onChange={this.handleInput}
+          placeholder="Your Name (Optional)"
         />
 
         <input
