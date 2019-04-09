@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Messages extends Component {
   render() {
-    console.log("RENDERING MSGS", this);
+    console.log("RENDERING <Messages />");
     return this.props.username ? (
       <div className="message">
         <span className="message-username">{this.props.username}</span>
