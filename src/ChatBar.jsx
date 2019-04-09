@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
+
 class ChatBar extends Component {
   render() {
+    console.log("RENDERING CHATBAR", this);
     return (
       <footer className="chatbar">
-        <div>{this.props.currentUser}</div>
         <input
           className="chatbar-username"
+          defaultValue={this.props.currentUser}
           placeholder="Your Name (Optional)"
         />
         <input

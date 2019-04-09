@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Messages from './Messages.jsx';
 
 class MessageList extends Component {
@@ -45,13 +45,18 @@ class MessageList extends Component {
       ]
     };
   }
-    render() {
-      const messageContent = this.state.messages.map(message => {
-        return <Messages type={message.type} content={message.content} username={message.username} />
-      });
-    return (
-    <div className="messages">{messageContent}</div>
-    );
+  render() {
+    console.log("RENDERING MSGLIST", this);
+    const messageContent = this.props.messages.map(message => {
+      return (
+        <Messages
+          type={message.type}
+          content={message.content}
+          username={message.username}
+        />
+      );
+    });
+    return <div className="messages">{messageContent}</div>;
   }
 }
 export default MessageList;
