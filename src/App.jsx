@@ -5,6 +5,7 @@ import ChatBar from './ChatBar.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.socket = new WebSocket('ws://0.0.0.0:3001');
     this.state = {
       currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
@@ -21,11 +22,14 @@ class App extends Component {
         }
       ]
     };
-    this.receiveData = this.receiveData.bind(this);
+    this.addMessage = this.addMessage.bind(this);
   }
 
   componentDidMount() {
     console.log('componentDidMount <App />');
+    this.socket.onopen = function(event) {
+      console.log('Connected to web socket.');
+    };
     setTimeout(() => {
       console.log('Simulating incoming message');
       //Add new message
@@ -40,16 +44,21 @@ class App extends Component {
     }, 3000);
   }
 
-  receiveData(data) {
+  addMessage(data) {
     console.log('receiveData <App />');
     const oldMessages = this.state.messages;
     let newData = {
       id: this.state.messages.length + 1,
       username: data.username,
       content: data.message
-    }
+    };
+
     const newMessages = [...oldMessages, newData];
-    this.setState({ messages: newMessages });
+
+    console.log("Sending:", JSON.stringify(newData));
+    this.socket.send(JSON.stringify(newData));
+
+    // this.setState({ messages: newMessages });
   }
 
   render() {
@@ -60,7 +69,7 @@ class App extends Component {
         <MessageList messages={this.state.messages} />
         <ChatBar
           currentUser={this.state.currentUser.name}
-          sendData={this.receiveData}
+          sendData={this.addMessage}
         />
       </div>
     );
