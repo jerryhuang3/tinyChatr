@@ -16,8 +16,10 @@
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2
   },
-  "plugins": [
-    "react"
-  ],
-  "extends": ["eslint:recommended", "plugin:react/recommended"]
+  "plugins": ["react", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier/react"
+  ]
 }
