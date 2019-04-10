@@ -8,34 +8,38 @@ class App extends Component {
     this.socket = new WebSocket('ws://0.0.0.0:3001');
     this.state = {
       currentUser: { name: null },
-      messages: []
+      messages: [],
+      onlineUsers: null
     };
     this.addMessage = this.addMessage.bind(this);
   }
 
   componentDidMount() {
     console.log('componentDidMount <App />');
-    this.socket.onopen = function(event) {
+    this.socket.onopen = event => {
       console.log('Connected to web socket.');
     };
 
     this.socket.onmessage = event => {
       const receivedMessage = JSON.parse(event.data);
-      console.log('RECEVIED MESSAGE', receivedMessage);
 
       const oldMessages = this.state.messages;
       const newMessages = [...oldMessages, receivedMessage];
-      switch (receivedMessage.type) {
-        case 'incomingMessage':
-          this.setState({ messages: newMessages });
-          break;
-        case 'incomingNotification':
-          const newName = receivedMessage.newName;
-          this.setState({ currentUser: newName, messages: newMessages });
 
-          break;
-        default:
-          throw new Error('Unknown event type ' + clientMessage.type);
+      if (Number.isInteger(receivedMessage)) {
+        const onlineUsers = receivedMessage;
+        this.setState({ onlineUsers });
+      } else {
+        switch (receivedMessage.type) {
+          case 'incomingMessage':
+            this.setState({ messages: newMessages });
+            break;
+          case 'incomingNotification':
+            this.setState({ messages: newMessages });
+            break;
+          default:
+            throw new Error('Unknown event type ' + clientMessage.type);
+        }
       }
     };
   }
@@ -51,7 +55,6 @@ class App extends Component {
     // Sends notification if different currentUser than in this.state.
     if (currentUser !== username) {
       const notification = {
-        newName: { name: username },
         type: 'postNotification',
         content: `${currentUser} has changed their name to ${username}`
       };
@@ -63,7 +66,7 @@ class App extends Component {
         content: content
       };
       this.socket.send(JSON.stringify(newData));
-
+      this.setState({currentUser: {name: username}})
     } else {
       currentUser = username;
       const newData = {
@@ -71,27 +74,31 @@ class App extends Component {
         username: username,
         content: content
       };
-    
 
       this.socket.send(JSON.stringify(newData));
-    }``
-    }
+    };
+  }
 
   render() {
     console.log('RENDERING <App />');
-    console.log('Returning New messages', this.state);
+    console.log('Returning New messages', this.state.currentUser);
     return (
       <main>
-<nav className="navbar">
-  <a href="/" className="navbar-brand">Chatty</a>
-</nav>
+        <nav className="navbar">
+          <a href="/" className="navbar-brand">
+            Chatty
+          </a>
+          <div className="navbar-users">
+            {this.state.onlineUsers} Users Online
+          </div>
+        </nav>
 
-      <div className="messages">
-        <MessageList messages={this.state.messages} />
-        <ChatBar
-          currentUser={this.state.currentUser.name}
-          chatData={this.addMessage}
-        />
+        <div className="messages">
+          <MessageList messages={this.state.messages} />
+          <ChatBar
+            currentUser={this.state.currentUser.name}
+            chatData={this.addMessage}
+          />
         </div>
       </main>
     );
