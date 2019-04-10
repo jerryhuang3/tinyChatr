@@ -7,7 +7,7 @@ class App extends Component {
     super(props);
     this.socket = new WebSocket('ws://0.0.0.0:3001');
     this.state = {
-      currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: { name: null },
       messages: []
     };
     this.addMessage = this.addMessage.bind(this);
@@ -20,42 +20,80 @@ class App extends Component {
     };
 
     this.socket.onmessage = event => {
-      console.log('RECEIVING FROM SERVER', JSON.parse(event.data));
       const receivedMessage = JSON.parse(event.data);
+      console.log('RECEVIED MESSAGE', receivedMessage);
 
       const oldMessages = this.state.messages;
       const newMessages = [...oldMessages, receivedMessage];
+      switch (receivedMessage.type) {
+        case 'incomingMessage':
+          this.setState({ messages: newMessages });
+          break;
+        case 'incomingNotification':
+          const newName = receivedMessage.newName;
+          this.setState({ currentUser: newName, messages: newMessages });
 
-      if (event.data.username !== this.state.currentUser.name) {
-        const newUser = { name: receivedMessage.username };
-        this.setState({ currentUser: newUser, messages: newMessages });
-      } else {
-        this.setState({ messages: newMessages });
+          break;
+        default:
+          throw new Error('Unknown event type ' + clientMessage.type);
       }
     };
   }
 
   addMessage(username, content) {
-    const newData = {
-      username: username,
-      content: content
-    };
+    let currentUser = this.state.currentUser.name;
 
-    console.log('Sending:', JSON.stringify(newData));
-    this.socket.send(JSON.stringify(newData));
-  }
+    // Initial state of currentUser is a null name. Sets local variable for next conditional statement.
+    if (currentUser === null) {
+      currentUser = 'Anonymous';
+    }
+
+    // Sends notification if different currentUser than in this.state.
+    if (currentUser !== username) {
+      const notification = {
+        newName: { name: username },
+        type: 'postNotification',
+        content: `${currentUser} has changed their name to ${username}`
+      };
+      this.socket.send(JSON.stringify(notification));
+
+      const newData = {
+        type: 'postMessage',
+        username: username,
+        content: content
+      };
+      this.socket.send(JSON.stringify(newData));
+
+    } else {
+      currentUser = username;
+      const newData = {
+        type: 'postMessage',
+        username: username,
+        content: content
+      };
+    
+
+      this.socket.send(JSON.stringify(newData));
+    }``
+    }
 
   render() {
     console.log('RENDERING <App />');
     console.log('Returning New messages', this.state);
     return (
-      <div>
+      <main>
+<nav className="navbar">
+  <a href="/" className="navbar-brand">Chatty</a>
+</nav>
+
+      <div className="messages">
         <MessageList messages={this.state.messages} />
         <ChatBar
           currentUser={this.state.currentUser.name}
           chatData={this.addMessage}
         />
-      </div>
+        </div>
+      </main>
     );
   }
 }
