@@ -15,7 +15,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount <App />');
     this.socket.onopen = event => {
       console.log('Connected to web socket.');
     };
@@ -23,13 +22,14 @@ class App extends Component {
     this.socket.onmessage = event => {
       const receivedMessage = JSON.parse(event.data);
 
-      const oldMessages = this.state.messages;
-      const newMessages = [...oldMessages, receivedMessage];
-
       if (Number.isInteger(receivedMessage)) {
         const onlineUsers = receivedMessage;
         this.setState({ onlineUsers });
       } else {
+        
+        const oldMessages = this.state.messages;
+        const newMessages = [...oldMessages, receivedMessage];
+
         switch (receivedMessage.type) {
           case 'incomingMessage':
             this.setState({ messages: newMessages });
@@ -56,19 +56,20 @@ class App extends Component {
     if (currentUser !== username) {
       const notification = {
         type: 'postNotification',
-        content: `${currentUser} has changed their name to ${username}`
+        content: `${currentUser} has changed their name to ${username}.`
       };
       this.socket.send(JSON.stringify(notification));
 
+      // User's message
       const newData = {
         type: 'postMessage',
         username: username,
         content: content
       };
       this.socket.send(JSON.stringify(newData));
-      this.setState({currentUser: {name: username}})
+      this.setState({ currentUser: { name: username } });
     } else {
-      currentUser = username;
+      // User's message
       const newData = {
         type: 'postMessage',
         username: username,
@@ -76,17 +77,16 @@ class App extends Component {
       };
 
       this.socket.send(JSON.stringify(newData));
-    };
+    }
   }
 
   render() {
-    console.log('RENDERING <App />');
-    console.log('Returning New messages', this.state.currentUser);
     return (
       <main>
         <nav className="navbar">
+          <img src="/public/assets/alligator.png" className="logo" />
           <a href="/" className="navbar-brand">
-            Chatty
+            tinyChatr
           </a>
           <div className="navbar-users">
             {this.state.onlineUsers} Users Online

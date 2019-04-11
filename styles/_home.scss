@@ -3,15 +3,15 @@ h1 {
 }
 
 body {
-  background: white;
+  background: #BCE7FD;
   color: black;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Bree Serif', serif;
   font-size: 14px;
   margin: 70px 0;
 }
 
 .chatbar {
-  background: tomato;
+  background: #424651;
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -66,9 +66,9 @@ body {
 }
 
 .navbar {
-  background: tomato;
+  background: #424651;
   border-bottom: 1px solid black;
-  height: 60px;
+  height: 80px;
   left: 0;
   padding: 0 10px;
   position: fixed;
@@ -77,25 +77,38 @@ body {
 }
 
 .navbar-brand {
-  color: inherit;
+  color: white;
   display: block;
   float: left;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 32px;
   height: 60px;
-  line-height: 60px;
+  line-height: 80px;
   padding: 0 10px;
   text-decoration: none;
 }
 
 .navbar-users {
-  color: inherit;
+  color: white;
   display: block;
   float: right;
   font-weight: 700;
   font-size: 28px;
-  height: 60px;
-  line-height: 60px;
+  height: 80px;
+  line-height: 80px;
   padding: 0 10px;
   text-decoration: none;
+}
+
+.logo {
+  margin: 10px;
+  height: 60px;
+  line-height: 80px;
+  width: 115px;
+  left: 2em;
+  float: left;
+}
+
+.messages {
+  padding-top: 10px;
 }

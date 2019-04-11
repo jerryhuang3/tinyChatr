@@ -15,7 +15,6 @@ class ChatBar extends Component {
       if (username === '') {
         username = 'Anonymous';
       }
-      console.log('SUBMITMESSAGE', username);
 
       this.props.chatData(username, content);
       event.target.value = '';
@@ -23,7 +22,6 @@ class ChatBar extends Component {
   }
 
   render() {
-    console.log('RENDERING <ChatBar />');
     return (
       <footer className="chatbar">
         <input
