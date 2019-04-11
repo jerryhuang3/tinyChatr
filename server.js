@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
+var port = process.env.PORT || 3000;
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
@@ -9,7 +10,7 @@ new WebpackDevServer(webpack(config), {
     poll: 1000,
     ignored: /node_modules/
   }
-}).listen(3000, '0.0.0.0', function(err, result) {
+}).listen(port, '0.0.0.0', function(err, result) {
   if (err) {
     console.log(err);
   }
