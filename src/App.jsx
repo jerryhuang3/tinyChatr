@@ -84,7 +84,7 @@ class App extends Component {
     return (
       <main>
         <nav className="navbar">
-          <img src="/public/assets/alligator.png" className="logo" />
+          <img src="public/assets/alligator.png" className="logo" />
           <a href="/" className="navbar-brand">
             tinyChatr
           </a>
