@@ -17,10 +17,9 @@ class Messages extends Component {
         <span className="message-username" style={{ color: this.props.color }}>
           {this.props.username}:
         </span>
-        <p className="message-content">{newContent}</p>
-        <span className="message-content">
-          <img className="message-img" src={imageURL} />
-        </span>
+        <span className="message-content">{newContent}</span>
+    
+          <p className="image"><img className="message-img" src={imageURL} /></p>
       </div>
     ) : (
       <div className="message system">{this.props.content}</div>
