@@ -6,7 +6,7 @@ import ChatBar from './ChatBar.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.socket = new WebSocket('ws://localhost:3001');
+    this.socket = new WebSocket('wss://tinychatr.herokuapp.com');
     this.myRef = React.createRef();
     this.state = {
       currentUser: { name: null },
