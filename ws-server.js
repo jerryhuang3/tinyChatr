@@ -16,7 +16,6 @@ function randomRGB() {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-console.log('HI');
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 // Set up a callback that will run when a client connects to the server
@@ -25,7 +24,6 @@ const wss = new SocketServer({ server });
 wss.on('connection', ws => {
   console.log('Client connected');
 
-  console.log('#008000');
   wss.broadcast = function broadcast(msg) {
     wss.clients.forEach(function each(client) {
       client.send(JSON.stringify(msg));
@@ -44,6 +42,7 @@ wss.on('connection', ws => {
   wss.broadcast(newClientNotification);
 
   const userColor = randomRGB();
+  
   ws.on('message', function incoming(clientMessage) {
     const message = JSON.parse(clientMessage);
     
@@ -55,6 +54,7 @@ wss.on('connection', ws => {
         message.id = uuid();
         message.type = 'incomingMessage';
         message.color = userColor;
+        message.time = new Date();
 
         wss.broadcast(message);
         break;

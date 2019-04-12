@@ -11,6 +11,7 @@ class MessageList extends Component {
           content={message.content}
           username={message.username}
           color={message.color}
+          time={message.time}
         />
       );
     });

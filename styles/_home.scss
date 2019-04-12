@@ -50,9 +50,13 @@ body {
 }
 
 .message-content,
-.message-username {
+.message-username,
+.message-time {
   margin: 5px;
-  padding: 0 10px;
+}
+
+.message-content {
+  margin-left: 55px;
 }
 
 .message-content {
@@ -63,6 +67,12 @@ body {
   flex: 2;
   font-weight: 700;
   text-decoration: underline;
+}
+
+.message-time {
+  flex: 2;
+  font-syle: italic;
+  font-size: 10px;
 }
 
 .navbar {
@@ -117,4 +127,5 @@ body {
 .message-img {
   max-width: 50vw;
   max-height: 300px;
+  margin-bottom: 20px;
 }

@@ -46,7 +46,7 @@ class App extends Component {
     };
   }
 
-  addMessage(username, content) {
+  addMessage(username, content, time) {
     let currentUser = this.state.currentUser.name;
 
     // Initial state of currentUser is a null name. Sets local variable for next conditional statement.
