@@ -10,6 +10,7 @@ class MessageList extends Component {
           type={message.type}
           content={message.content}
           username={message.username}
+          color={message.color}
         />
       );
     });

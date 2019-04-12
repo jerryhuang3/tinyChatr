@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.socket = new WebSocket('ws://0.0.0.0:3001');
+    this.socket = new WebSocket('ws://localhost:3001');
+    this.myRef = React.createRef();
     this.state = {
       currentUser: { name: null },
       messages: [],
@@ -26,7 +28,6 @@ class App extends Component {
         const onlineUsers = receivedMessage;
         this.setState({ onlineUsers });
       } else {
-        
         const oldMessages = this.state.messages;
         const newMessages = [...oldMessages, receivedMessage];
 
@@ -41,6 +42,7 @@ class App extends Component {
             throw new Error('Unknown event type ' + clientMessage.type);
         }
       }
+      document.getElementById('scrollToMe').scrollIntoView();
     };
   }
 
@@ -84,7 +86,7 @@ class App extends Component {
     return (
       <main>
         <nav className="navbar">
-          <img src="public/assets/alligator.png" className="logo" />
+          <img src="https://i.imgur.com/PrbB3Lv.png" className="logo" />
           <a href="/" className="navbar-brand">
             tinyChatr
           </a>
@@ -95,6 +97,7 @@ class App extends Component {
 
         <div className="messages">
           <MessageList messages={this.state.messages} />
+          <div id="scrollToMe" />
           <ChatBar
             currentUser={this.state.currentUser.name}
             chatData={this.addMessage}
