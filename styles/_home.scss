@@ -47,12 +47,12 @@ body {
 .message.system {
   font-style: italic;
   padding: 5px 0px;
-  margin-left: 50vw;
+  text-align: center;
 }
 
 .message-content {
   flex: 8;
-  margin-left: .5em;
+  margin-left: 0.5em;
 }
 
 .message-username {
@@ -62,7 +62,7 @@ body {
 }
 
 .message-time {
-  font-syle: italic;
+  font-style: italic;
   font-size: 10px;
   padding: 0 5px;
 }
@@ -113,15 +113,15 @@ body {
 
 .messages {
   padding-top: 10px;
-  overflow: scroll;
 }
 
 .message-img {
-  max-width: 50vw;
+  max-width: 50%;
   max-height: 300px;
-  margin-left:5em;
+  margin-left: 5em;
 }
 
 .image {
   margin: 0;
+  padding-top: 5px;
 }

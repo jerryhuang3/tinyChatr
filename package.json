@@ -1,12 +1,12 @@
 {
-  "name": "react-simple-boilerplate-parcel",
+  "name": "tinyChatr",
   "version": "",
-  "description": "Simple and lightweight Boilerplate for ReactJS projects",
+  "description": "client-side real-time cha5 app",
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
-    "dev": "parcel index.html",
+    "dev": "parcel index.html -p 3000",
     "build": "parcel build index.html",
-    "start": "node ws-server.js"
+    "start": "parcel build index.html && node ws-server.js"
   },
   "repository": {
     "type": "git",

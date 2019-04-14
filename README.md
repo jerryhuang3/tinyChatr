@@ -1,45 +1,38 @@
-React Boilerplate
+tinyChatr
 =====================
 
-A minimal and light dev environment for ReactJS.
+tinyChatr is a client-side single-page application that allows multiple users to chat with each other. Users are able to set their username and chat in real-time through through the Websocket server.
+
+## Final App
+![tinyChatr](link)
 
 ### Usage
 
-Clone the boilerplate and create your own git repo.
-
+Clone the repo to your local machine.
 ```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
+git clone git@github.com:jerryhuang3/tinyChatr.git
+cd tinyChatr
 ```
-
 Install the dependencies and start the server.
-
 ```
 npm install
 npm start
-open http://localhost:3000
+open http://localhost:3001
 ```
 
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
+### Heroku
+To deploy on Heroku, you need to change the local socket server under src/App.jsx.
+Change
+`this.socket = new WebSocket('ws://0.0.0.0:3001');` 
+to 
+`this.socket = new WebSocket('wss://[yourAppName].herokuapp.com');`
 
 ### Dependencies
-
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+* ReactJS
+* Parcel
+* Babel
+* SASS
+* Express
+* Websockets
+* Moment
+* UUID

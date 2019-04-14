@@ -30,7 +30,6 @@ class ChatBar extends Component {
           defaultValue={this.props.currentUser}
           placeholder="Your Name (Optional)"
         />
-
         <input
           className="chatbar-message"
           name="message"

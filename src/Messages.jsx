@@ -4,9 +4,8 @@ import moment from 'moment';
 class Messages extends Component {
   render() {
     const regex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/gi;
-
+    // URLs that are detected are rmeoved from the text content
     const newContent = this.props.content.replace(regex, '');
-
     const imageURL = this.props.content.match(regex);
 
     return this.props.username ? (
@@ -18,8 +17,10 @@ class Messages extends Component {
           {this.props.username}:
         </span>
         <span className="message-content">{newContent}</span>
-    
-          <p className="image"><img className="message-img" src={imageURL} /></p>
+
+        <p className="image">
+          <img className="message-img" src={imageURL} />
+        </p>
       </div>
     ) : (
       <div className="message system">{this.props.content}</div>

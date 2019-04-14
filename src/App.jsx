@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.socket = new WebSocket('wss://tinychatr.herokuapp.com');
-    this.myRef = React.createRef();
+    this.socket = new WebSocket('ws://0.0.0.0:3001');
     this.state = {
       currentUser: { name: null },
       messages: [],
@@ -20,7 +18,7 @@ class App extends Component {
     this.socket.onopen = event => {
       console.log('Connected to web socket.');
     };
-
+    // Setting new states upon receiving messages from the socket server
     this.socket.onmessage = event => {
       const receivedMessage = JSON.parse(event.data);
 
@@ -30,7 +28,6 @@ class App extends Component {
       } else {
         const oldMessages = this.state.messages;
         const newMessages = [...oldMessages, receivedMessage];
-
         switch (receivedMessage.type) {
           case 'incomingMessage':
             this.setState({ messages: newMessages });
@@ -46,7 +43,7 @@ class App extends Component {
     };
   }
 
-  addMessage(username, content, time) {
+  addMessage(username, content) {
     let currentUser = this.state.currentUser.name;
 
     // Initial state of currentUser is a null name. Sets local variable for next conditional statement.
@@ -63,22 +60,21 @@ class App extends Component {
       this.socket.send(JSON.stringify(notification));
 
       // User's message
-      const newData = {
+      const chatData = {
         type: 'postMessage',
         username: username,
         content: content
       };
-      this.socket.send(JSON.stringify(newData));
+      this.socket.send(JSON.stringify(chatData));
       this.setState({ currentUser: { name: username } });
     } else {
       // User's message
-      const newData = {
+      const chatData = {
         type: 'postMessage',
         username: username,
         content: content
       };
-
-      this.socket.send(JSON.stringify(newData));
+      this.socket.send(JSON.stringify(chatData));
     }
   }
 
@@ -86,15 +82,14 @@ class App extends Component {
     return (
       <main>
         <nav className="navbar">
-          <img src="https://i.imgur.com/PrbB3Lv.png" className="logo" />
+          <img src="/assets/alligator.png" className="logo" />
           <a href="/" className="navbar-brand">
             tinyChatr
           </a>
           <div className="navbar-users">
-            {this.state.onlineUsers} Users Online
+            Users Online: {this.state.onlineUsers} 
           </div>
         </nav>
-
         <div className="messages">
           <MessageList messages={this.state.messages} />
           <div id="scrollToMe" />
