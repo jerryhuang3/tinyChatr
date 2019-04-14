@@ -21,11 +21,11 @@ open http://localhost:3001
 ```
 
 ### Heroku
-To deploy on Heroku, you need to change the local socket server under src/App.jsx.
-Change
-`this.socket = new WebSocket('ws://0.0.0.0:3001');` 
-to 
-`this.socket = new WebSocket('wss://[yourAppName].herokuapp.com');`
+To deploy on Heroku, you need to change the local socket server under src/App.jsx.  
+Change  
+`this.socket = new WebSocket('ws://0.0.0.0:3001')` 
+to   
+`this.socket = new WebSocket('wss://[yourAppName].herokuapp.com')`
 
 ### Dependencies
 * ReactJS
