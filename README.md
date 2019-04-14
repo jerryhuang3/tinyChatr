@@ -4,7 +4,7 @@ tinyChatr
 tinyChatr is a client-side single-page application that allows multiple users to chat with each other. Users are able to set their username and chat in real-time through through the Websocket server.
 
 ## Final App
-![tinyChatr](link)
+![tinyChatr](https://github.com/jerryhuang3/tinyChatr/blob/master/dist/assets/tinychatr.gif)
 
 ### Usage
 
