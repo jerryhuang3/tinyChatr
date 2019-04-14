@@ -6,7 +6,7 @@
     "lint": "eslint --ext .jsx,.js src",
     "dev": "parcel index.html -p 3000",
     "build": "parcel build index.html",
-    "start": "parcel build index.html && node ws-server.js"
+    "start": "node ws-server.js"
   },
   "repository": {
     "type": "git",

@@ -5,7 +5,7 @@ import ChatBar from './ChatBar.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.socket = new WebSocket('ws://0.0.0.0:3001');
+    this.socket = new WebSocket('wss://tinychatr.herokuapp.com');
     this.state = {
       currentUser: { name: null },
       messages: [],
