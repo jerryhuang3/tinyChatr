@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3001;
 // Mount app
 server.on('request', app);
 
+// Creates random RGB color for username
 function randomRGB() {
   const r = Math.floor(Math.random() * 210);
   const g = Math.floor(Math.random() * 210);
@@ -42,10 +43,10 @@ wss.on('connection', ws => {
   wss.broadcast(newClientNotification);
 
   const userColor = randomRGB();
-  
+
   ws.on('message', function incoming(clientMessage) {
     const message = JSON.parse(clientMessage);
-    
+
     switch (message.type) {
       case 'postMessage':
         if (!message.username) {
@@ -55,13 +56,11 @@ wss.on('connection', ws => {
         message.type = 'incomingMessage';
         message.color = userColor;
         message.time = new Date();
-
         wss.broadcast(message);
         break;
       case 'postNotification':
         message.id = uuid();
         message.type = 'incomingNotification';
-
         wss.broadcast(message);
         break;
       default:
@@ -76,6 +75,7 @@ wss.on('connection', ws => {
   });
 });
 
+// Server.listen allows for a single port to be used when running the build.
 server.listen(PORT, function() {
-  console.log(`http/ws server listening on ${PORT}`);
+  console.log(`HTTP/WS server listening on ${PORT}`);
 });
